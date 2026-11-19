@@ -1,0 +1,14 @@
+{
+  "name": "lavet-wellness",
+  "version": "1.1.0",
+  "private": true,
+  "description": "Lavet Wellness static storefront + secure Deepgram voice proxy",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

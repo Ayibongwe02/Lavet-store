@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Cart — Lavet Wellness</title>
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="logo">LAVET WELLNESS</a>
+      <button type="button" class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="main-nav">
+        <span></span>
+      </button>
+      <nav class="nav-links" id="main-nav">
+        <a href="/">Home</a>
+        <a href="/products">Shop</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+        <a href="/account">Account</a>
+      </nav>
+      <div class="header-actions">
+        <a href="/cart" class="icon-btn" aria-label="Cart">
+          🛒
+          <span id="cart-count">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1 class="section-title">Your cart</h1>
+    <div id="cart-content"></div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="/" class="logo">LAVET WELLNESS</a>
+        <p>Natural supplements, skincare & rituals for calm, clarity and vitality.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <a href="/products">All products</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <a href="/cart">Cart</a>
+        <a href="/checkout">Checkout</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-meta">Prototype storefront · Prices in ZAR · Not a live payment system</p>
+      <p class="footer-credit">Designed & Developed by <span class="footer-studio">Ayin Studio</span></p>
+    </div>
+  </footer>
+
+  <script src="js/products.js"></script>
+  <script src="js/neon-product.js"></script>
+  <script src="js/assistant.js"></script>
+  <script src="js/cart.js"></script>
+  <script>
+    function renderCart() {
+      const cart = getCart();
+      const el = document.getElementById('cart-content');
+
+      if (cart.length === 0) {
+        el.innerHTML = `
+          <div class="empty-state">
+            <h2>Your cart is empty</h2>
+            <p>Browse the collection and add something you love.</p>
+            <a href="/products" class="btn btn-primary" style="margin-top:16px">Shop now</a>
+          </div>`;
+        return;
+      }
+
+      let rows = '';
+      let cards = '';
+      cart.forEach(item => {
+        const p = PRODUCTS.find(pr => pr.id === item.id);
+        if (!p) return;
+        const line = p.price * item.qty;
+        rows += `
+          <tr>
+            <td>
+              <div class="cart-item-info">
+                <img src="images/products/${p.img}.jpg" alt="${p.name}">
+                <div>
+                  <strong>${p.name}</strong><br>
+                  <small style="color:var(--mute)">${p.cat}</small>
+                </div>
+              </div>
+            </td>
+            <td>R${p.price}</td>
+            <td>
+              <div class="qty-control">
+                <button type="button" onclick="setQty(${p.id}, ${item.qty - 1})">−</button>
+                <input type="number" value="${item.qty}" min="1" readonly>
+                <button type="button" onclick="setQty(${p.id}, ${item.qty + 1})">+</button>
+              </div>
+            </td>
+            <td>R${line}</td>
+            <td><button class="btn btn-ghost btn-sm" onclick="removeItem(${p.id})">Remove</button></td>
+          </tr>`;
+        cards += `
+          <div class="cart-card">
+            <img src="images/products/${p.img}.jpg" alt="${p.name}">
+            <div class="cart-card__meta">
+              <strong>${p.name}</strong>
+              <small>${p.cat}</small>
+              <div class="cart-card__row">
+                <span class="cart-card__price">R${line}</span>
+                <div class="cart-card__actions">
+                  <div class="qty-control">
+                    <button type="button" onclick="setQty(${p.id}, ${item.qty - 1})">−</button>
+                    <input type="number" value="${item.qty}" min="1" readonly>
+                    <button type="button" onclick="setQty(${p.id}, ${item.qty + 1})">+</button>
+                  </div>
+                  <button class="btn btn-ghost btn-sm" onclick="removeItem(${p.id})">Remove</button>
+                </div>
+              </div>
+            </div>
+          </div>`;
+      });
+
+      el.innerHTML = `
+        <div class="cart-table-wrap" style="overflow-x:auto">
+          <table class="cart-table">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Qty</th>
+                <th>Total</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>
+        <div class="cart-cards">${cards}</div>
+        <div class="cart-summary">
+          <div class="row"><span>Subtotal</span><span>R${getCartTotal()}</span></div>
+          <div class="row"><span>Shipping</span><span>Calculated at checkout</span></div>
+          <div class="row total"><span>Total</span><span>R${getCartTotal()}</span></div>
+          <a href="/checkout" class="btn btn-primary btn-block" style="margin-top:16px">Proceed to checkout</a>
+          <a href="/products" class="btn btn-ghost btn-block" style="margin-top:8px">Continue shopping</a>
+        </div>`;
+    }
+
+    function setQty(id, qty) {
+      if (qty < 1) {
+        removeFromCart(id);
+      } else {
+        updateQty(id, qty);
+      }
+      renderCart();
+    }
+    function removeItem(id) {
+      removeFromCart(id);
+      renderCart();
+    }
+
+    renderCart();
+  </script>
+</body>
+</html>

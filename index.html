@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Lavet Wellness — Natural supplements, skincare & rituals</title>
+  <meta name="description" content="Lavet Wellness — thoughtfully formulated supplements, skincare and rituals for calm, clarity and vitality.">
+  <script>
+    // Decide before first paint whether the neon loader shows (once per session; ?loader forces it)
+    (function () {
+      var r = document.documentElement.classList, seen = false;
+      try { seen = !!sessionStorage.getItem('lavet_loader_seen'); } catch (e) {}
+      if (seen && !/[?&]loader\b/.test(location.search)) r.add('skip-loader'); else r.add('is-loading');
+    })();
+  </script>
+  <noscript><style>.neon-loader { display: none !important; } html.is-loading { overflow: auto !important; }</style></noscript>
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <!-- Neon loading overlay -->
+  <div class="neon-loader" id="neon-loader" data-palette="gold" role="status" aria-live="polite" aria-label="Loading Lavet Wellness">
+    <canvas class="neon-loader__canvas" aria-hidden="true"></canvas>
+    <div class="neon-loader__ui">
+      <div class="neon-loader__brand">LAVET WELLNESS</div>
+      <div class="neon-loader__foot">
+        <div class="neon-loader__status">Preparing your ritual</div>
+        <div class="neon-loader__meter">
+          <div class="neon-loader__bar"><span></span></div>
+          <div class="neon-loader__pct">0%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="logo">LAVET WELLNESS</a>
+      <button type="button" class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="main-nav">
+        <span></span>
+      </button>
+      <nav class="nav-links" id="main-nav">
+        <a href="/" class="active">Home</a>
+        <a href="/products">Shop</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+        <a href="/account">Account</a>
+      </nav>
+      <div class="header-actions">
+        <a href="/cart" class="icon-btn" aria-label="Cart">
+          🛒
+          <span id="cart-count">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero hero-split">
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <h1>LAVET WELLNESS</h1>
+        <p>Natural supplements, skincare & rituals crafted for modern life — calm, clarity and lasting vitality.</p>
+        <div class="hero-ctas">
+          <a href="/products" class="btn btn-primary">Shop the collection</a>
+          <a href="/about" class="btn btn-outline">Our story</a>
+        </div>
+      </div>
+
+      <div class="neon-stage" id="neon-stage" data-palette="gold">
+        <canvas id="neon-canvas" role="img" aria-label="Interactive neon wireframe of a Lavet dropper bottle inside a rotating four-dimensional hypercube. It follows your cursor."></canvas>
+        <div class="neon-hud">
+          <span class="neon-hint">Move your cursor · drag to spin</span>
+          <div class="neon-toggle" role="group" aria-label="Neon colour">
+            <button type="button" data-palette-btn="gold" aria-pressed="true"><i class="sw sw-gold"></i>Sage</button>
+            <button type="button" data-palette-btn="white" aria-pressed="false"><i class="sw sw-white"></i>White</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main class="container">
+    <h2 class="section-title">Featured products</h2>
+    <p class="section-sub">A curated selection of our most loved formulas.</p>
+    <div class="product-grid" id="featured-grid"></div>
+    <div class="text-center mt-24">
+      <a href="/products" class="btn btn-outline">View all products</a>
+    </div>
+
+    <div class="values-grid" style="margin-top: 64px;">
+      <div class="value-card">
+        <div class="icon">🌿</div>
+        <h3>Clean formulas</h3>
+        <p>Science-backed ingredients, no unnecessary fillers.</p>
+      </div>
+      <div class="value-card">
+        <div class="icon">🇿🇦</div>
+        <h3>Made for SA</h3>
+        <p>Priced in ZAR and formulated with local needs in mind.</p>
+      </div>
+      <div class="value-card">
+        <div class="icon">✨</div>
+        <h3>Ritual over routine</h3>
+        <p>Products designed to become moments of care, not chores.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="/" class="logo">LAVET WELLNESS</a>
+        <p>Natural supplements, skincare & rituals for calm, clarity and vitality.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <a href="/products">All products</a>
+        <a href="/products?cat=Supplements">Supplements</a>
+        <a href="/products?cat=Skincare">Skincare</a>
+        <a href="/products?cat=Teas%20%26%20Tonics">Teas & Tonics</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+        <a href="/account">Account</a>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <a href="/cart">Cart</a>
+        <a href="/checkout">Checkout</a>
+        <a href="/contact">Help</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-meta">Prototype storefront · Prices in ZAR · Not a live payment system</p>
+      <p class="footer-credit">Designed & Developed by <span class="footer-studio">Ayin Studio</span></p>
+    </div>
+  </footer>
+
+  <!-- Onboarding overlay — focuses on the intelligent shopping assistant -->
+  <div class="onboard-overlay" id="onboard">
+    <div class="onboard-card onboard-card--assistant" role="dialog" aria-labelledby="onboard-title">
+      <div class="onboard-card__scroll">
+        <div class="onboard-badge">✨ Intelligent Assistant</div>
+        <h2 id="onboard-title">Meet your Lavet Assistant</h2>
+        <p class="onboard-lead">An AI shopping companion trained on our full product catalogue. It understands your goals and speaks English, Afrikaans &amp; Shona.</p>
+
+        <div class="onboard-preview" aria-hidden="true">
+          <div class="onboard-preview__header">
+            <span class="onboard-preview__avatar">🌿</span>
+            <div>
+              <strong>Lavet Assistant</strong>
+              <small>Here to help you find the right products</small>
+            </div>
+          </div>
+          <div class="onboard-preview__body">
+            <p class="onboard-preview__bot">What’s your focus today?</p>
+            <div class="onboard-preview__chips">
+              <span>Skincare</span>
+              <span>Better sleep</span>
+              <span>Calm &amp; focus</span>
+              <span>🎤 Voice</span>
+            </div>
+          </div>
+        </div>
+
+        <ul class="onboard-steps">
+          <li><strong>Goal-based picks</strong> — tell it your need, get tailored recommendations</li>
+          <li><strong>Voice ready</strong> — tap the mic or say “Hey Lavet”</li>
+          <li><strong>Multilingual</strong> — English, Afrikaans &amp; Shona support</li>
+          <li><strong>Trained on our products</strong> — accurate, catalogue-aware answers</li>
+        </ul>
+        <p class="onboard-footnote">You’ll also be able to browse, cart and checkout as a full store demo.</p>
+      </div>
+      <div class="onboard-card__footer">
+        <button class="btn btn-primary btn-block" id="onboard-start">Show me the assistant</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/products.js"></script>
+  <script src="js/neon-product.js"></script>
+  <script src="js/assistant.js"></script>
+  <script src="js/cart.js"></script>
+    <script src="js/neon-loader.js"></script>
+  <script src="js/neon-stage.js"></script>
+  <script>
+    // Featured products (first 6)
+    const grid = document.getElementById('featured-grid');
+    PRODUCTS.slice(0, 6).forEach(p => {
+      grid.innerHTML += `
+        <article class="product-card">
+          <a href="/product?id=${p.id}">
+            <img src="images/products/${p.img}.jpg" alt="${p.name}" loading="lazy">
+            <div class="info">
+              <span class="cat">${p.cat}</span>
+              <h3>${p.name}</h3>
+              <span class="price">R${p.price}</span>
+            </div>
+          </a>
+          <div class="actions">
+            <button class="btn btn-primary btn-sm btn-block" onclick="addToCart(${p.id})">Add to cart</button>
+          </div>
+        </article>`;
+    });
+
+    // Onboarding — show once per browser session, after the neon loader finishes
+    const overlay = document.getElementById('onboard');
+    function showOnboardIfNeeded() {
+      if (!overlay) return;
+      if (typeof isOnboarded === 'function' && isOnboarded()) return;
+      overlay.classList.add('show');
+    }
+    // If loader is present, wait for it; otherwise show shortly after paint
+    if (document.getElementById('neon-loader')) {
+      document.addEventListener('neon:ready', showOnboardIfNeeded, { once: true });
+      // Safety: if neon:ready never fires, still show after a few seconds
+      setTimeout(showOnboardIfNeeded, 4500);
+    } else {
+      requestAnimationFrame(() => setTimeout(showOnboardIfNeeded, 300));
+    }
+
+    const startBtn = document.getElementById('onboard-start');
+    if (startBtn) {
+      startBtn.addEventListener('click', () => {
+        if (typeof setOnboarded === 'function') setOnboarded();
+        if (overlay) overlay.classList.remove('show');
+        // Flag + event so the assistant coach-mark appears even if it init'd earlier/later
+        window.__lavetOnboardComplete = true;
+        window.dispatchEvent(new CustomEvent('lavet:onboard-complete'));
+      });
+    }
+  </script>
+</body>
+</html>

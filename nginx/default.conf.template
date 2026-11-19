@@ -1,0 +1,76 @@
+# Lavet Wellness: static site server with clean URLs (no .html in the address bar).
+# ${PORT} is filled in at container start (defaults to 8080).
+server {
+    listen ${PORT};
+    server_name _;
+
+    root /usr/share/nginx/html;
+    index index.html;
+
+    server_tokens off;
+    absolute_redirect off;
+    port_in_redirect off;
+
+    # --- compression ---
+    gzip on;
+    gzip_comp_level 5;
+    gzip_min_length 512;
+    gzip_vary on;
+    gzip_types text/plain text/css text/javascript application/javascript application/json image/svg+xml;
+
+    # --- security headers ---
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+    add_header Permissions-Policy "camera=(), microphone=(), geolocation=()" always;
+
+    # --- health check ---
+    location = /healthz {
+        access_log off;
+        default_type text/plain;
+        return 200 "ok\n";
+    }
+
+    # Serve the home page directly. try_files with a middle argument serves the
+    # file in place (no internal redirect), which avoids the redirect loop.
+    location = / {
+        add_header Cache-Control "no-cache" always;
+        try_files /index.html =404;
+    }
+
+    # Redirect /index.html -> /
+    location = /index.html {
+        return 301 /$is_args$args;
+    }
+
+    # Redirect /page.html -> /page (keeps query string)
+    location ~ ^/(.+)\.html$ {
+        return 301 /$1$is_args$args;
+    }
+
+    # CSS/JS
+    location ~* \.(css|js)$ {
+        add_header Cache-Control "public, max-age=3600" always;
+        add_header X-Content-Type-Options "nosniff" always;
+        try_files $uri =404;
+    }
+
+    # Product images
+    location /images/ {
+        add_header Cache-Control "public, max-age=2592000" always;
+        add_header X-Content-Type-Options "nosniff" always;
+        try_files $uri =404;
+    }
+
+    # Clean URLs: /about → about.html, / → index.html
+    location / {
+        add_header Cache-Control "no-cache" always;
+        add_header X-Content-Type-Options "nosniff" always;
+        add_header X-Frame-Options "SAMEORIGIN" always;
+        add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+        try_files $uri $uri.html =404;
+    }
+
+    # Never serve dotfiles
+    location ~ /\. { deny all; }
+}

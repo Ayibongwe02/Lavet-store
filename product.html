@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Product — Lavet Wellness</title>
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="logo">LAVET WELLNESS</a>
+      <button type="button" class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="main-nav">
+        <span></span>
+      </button>
+      <nav class="nav-links" id="main-nav">
+        <a href="/">Home</a>
+        <a href="/products" class="active">Shop</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+        <a href="/account">Account</a>
+      </nav>
+      <div class="header-actions">
+        <a href="/cart" class="icon-btn" aria-label="Cart">
+          🛒
+          <span id="cart-count">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div id="detail"></div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="/" class="logo">LAVET WELLNESS</a>
+        <p>Natural supplements, skincare & rituals for calm, clarity and vitality.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <a href="/products">All products</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <a href="/cart">Cart</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-meta">Prototype storefront · Prices in ZAR · Not a live payment system</p>
+      <p class="footer-credit">Designed & Developed by <span class="footer-studio">Ayin Studio</span></p>
+    </div>
+  </footer>
+
+  <script src="js/products.js"></script>
+  <script src="js/neon-product.js"></script>
+  <script src="js/assistant.js"></script>
+  <script src="js/cart.js"></script>
+  <script>
+    const id = parseInt(new URLSearchParams(location.search).get('id'), 10);
+    const p = PRODUCTS.find(pr => pr.id === id);
+    const el = document.getElementById('detail');
+
+    if (!p) {
+      el.innerHTML = `
+        <div class="empty-state">
+          <h2>Product not found</h2>
+          <p>This item may have been removed.</p>
+          <a href="/products" class="btn btn-primary" style="margin-top:16px">Back to shop</a>
+        </div>`;
+    } else {
+      document.title = p.name + ' — Lavet Wellness';
+      el.innerHTML = `
+        <div class="product-detail">
+          <img src="images/products/${p.img}.jpg" alt="${p.name}">
+          <div>
+            <p class="meta">${p.cat} · ${p.unit}</p>
+            <h1>${p.name}</h1>
+            <p class="price-lg">R${p.price}</p>
+            <p class="desc">${p.desc}</p>
+            <div class="qty-row">
+              <label for="qty">Quantity</label>
+              <div class="qty-control">
+                <button type="button" onclick="changeQty(-1)">−</button>
+                <input type="number" id="qty" value="1" min="1" max="20" readonly>
+                <button type="button" onclick="changeQty(1)">+</button>
+              </div>
+            </div>
+            <button class="btn btn-primary" style="margin-right:10px" onclick="addToCart(${p.id}, getQty())">Add to cart</button>
+            <a href="/products" class="btn btn-ghost">Continue shopping</a>
+          </div>
+        </div>`;
+    }
+
+    function getQty() {
+      return parseInt(document.getElementById('qty').value, 10) || 1;
+    }
+    function changeQty(delta) {
+      const input = document.getElementById('qty');
+      let v = parseInt(input.value, 10) || 1;
+      v = Math.max(1, Math.min(20, v + delta));
+      input.value = v;
+    }
+  </script>
+</body>
+</html>

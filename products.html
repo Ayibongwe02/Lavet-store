@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Shop — Lavet Wellness</title>
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="logo">LAVET WELLNESS</a>
+      <button type="button" class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="main-nav">
+        <span></span>
+      </button>
+      <nav class="nav-links" id="main-nav">
+        <a href="/">Home</a>
+        <a href="/products" class="active">Shop</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+        <a href="/account">Account</a>
+      </nav>
+      <div class="header-actions">
+        <a href="/cart" class="icon-btn" aria-label="Cart">
+          🛒
+          <span id="cart-count">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1 class="section-title">Shop</h1>
+    <p class="section-sub">Natural supplements, skincare, teas & body care. Prices in ZAR.</p>
+
+    <div class="filters" id="filters"></div>
+    <div class="product-grid" id="grid"></div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="/" class="logo">LAVET WELLNESS</a>
+        <p>Natural supplements, skincare & rituals for calm, clarity and vitality.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <a href="/products">All products</a>
+        <a href="/products?cat=Supplements">Supplements</a>
+        <a href="/products?cat=Skincare">Skincare</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+        <a href="/account">Account</a>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <a href="/cart">Cart</a>
+        <a href="/checkout">Checkout</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-meta">Prototype storefront · Prices in ZAR · Not a live payment system</p>
+      <p class="footer-credit">Designed & Developed by <span class="footer-studio">Ayin Studio</span></p>
+    </div>
+  </footer>
+
+  <script src="js/products.js"></script>
+  <script src="js/neon-product.js"></script>
+  <script src="js/assistant.js"></script>
+  <script src="js/cart.js"></script>
+  <script>
+    const params = new URLSearchParams(location.search);
+    let currentCat = params.get('cat') || 'All';
+
+    const filtersEl = document.getElementById('filters');
+    const grid = document.getElementById('grid');
+
+    function render() {
+      filtersEl.innerHTML = '';
+      CATEGORIES.forEach(c => {
+        const btn = document.createElement('button');
+        btn.className = 'filter-btn' + (c === currentCat ? ' active' : '');
+        btn.textContent = c;
+        btn.onclick = () => {
+          currentCat = c;
+          history.replaceState(null, '', c === 'All' ? '/products' : `/products?cat=${encodeURIComponent(c)}`);
+          render();
+        };
+        filtersEl.appendChild(btn);
+      });
+
+      const list = currentCat === 'All' ? PRODUCTS : PRODUCTS.filter(p => p.cat === currentCat);
+      grid.innerHTML = list.map(p => `
+        <article class="product-card">
+          <a href="/product?id=${p.id}">
+            <img src="images/products/${p.img}.jpg" alt="${p.name}" loading="lazy">
+            <div class="info">
+              <span class="cat">${p.cat} · ${p.unit}</span>
+              <h3>${p.name}</h3>
+              <span class="price">R${p.price}</span>
+            </div>
+          </a>
+          <div class="actions">
+            <button class="btn btn-primary btn-sm btn-block" onclick="addToCart(${p.id})">Add to cart</button>
+          </div>
+        </article>
+      `).join('');
+    }
+    render();
+  </script>
+</body>
+</html>

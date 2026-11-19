@@ -1,0 +1,63 @@
+# Render Blueprint: deploys Lavet Wellness as a free, CDN-backed Static Site.
+# Dashboard: New + > Blueprint > pick your repo. Render reads this file.
+services:
+  - type: web
+    name: lavet-wellness
+    runtime: static
+    plan: free
+    # Copy only the site files into dist/ so Dockerfile, nginx/ etc. are never published
+    buildCommand: mkdir -p dist && cp *.html dist/ && cp -r css js images dist/
+    staticPublishPath: ./dist
+    # Clean URLs (the site links to /products, /cart etc.)
+    routes:
+      - type: rewrite
+        source: /products
+        destination: /products.html
+      - type: rewrite
+        source: /product
+        destination: /product.html
+      - type: rewrite
+        source: /cart
+        destination: /cart.html
+      - type: rewrite
+        source: /checkout
+        destination: /checkout.html
+      - type: rewrite
+        source: /account
+        destination: /account.html
+      - type: rewrite
+        source: /about
+        destination: /about.html
+      - type: rewrite
+        source: /contact
+        destination: /contact.html
+      - type: rewrite
+        source: /order-complete
+        destination: /order-complete.html
+    headers:
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: X-Frame-Options
+        value: SAMEORIGIN
+      - path: /*
+        name: Referrer-Policy
+        value: strict-origin-when-cross-origin
+      - path: /images/*
+        name: Cache-Control
+        value: public, max-age=2592000
+      - path: /*.html
+        name: Cache-Control
+        value: no-cache
+
+# --- Prefer Docker on Render instead? Replace the service above with this: ---
+# services:
+#   - type: web
+#     name: lavet-wellness
+#     runtime: docker
+#     plan: starter          # Docker web services are not on the free plan
+#     healthCheckPath: /healthz
+#     envVars:
+#       - key: PORT
+#         value: "10000"     # Render's default port; nginx reads it automatically

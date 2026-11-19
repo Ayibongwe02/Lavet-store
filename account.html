@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Account — Lavet Wellness</title>
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="logo">LAVET WELLNESS</a>
+      <button type="button" class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="main-nav">
+        <span></span>
+      </button>
+      <nav class="nav-links" id="main-nav">
+        <a href="/">Home</a>
+        <a href="/products">Shop</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+        <a href="/account" class="active">Account</a>
+      </nav>
+      <div class="header-actions">
+        <a href="/cart" class="icon-btn" aria-label="Cart">
+          🛒
+          <span id="cart-count">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1 class="section-title text-center">Your account</h1>
+    <p class="section-sub text-center">
+      Account features are placeholders for this prototype. No real authentication or database is connected.
+    </p>
+
+    <div class="account-grid">
+      <div class="account-card">
+        <span class="badge-proto">PLACEHOLDER</span>
+        <h3>Sign in</h3>
+        <p>In production you would sign in with email and password or social providers.</p>
+        <button class="btn btn-outline btn-sm" onclick="showToast('Sign-in is a placeholder in this prototype')">Sign in</button>
+      </div>
+      <div class="account-card">
+        <span class="badge-proto">PLACEHOLDER</span>
+        <h3>Create account</h3>
+        <p>Registration would create a customer profile, order history and saved addresses.</p>
+        <button class="btn btn-outline btn-sm" onclick="showToast('Registration is a placeholder in this prototype')">Register</button>
+      </div>
+      <div class="account-card">
+        <span class="badge-proto">PLACEHOLDER</span>
+        <h3>Order history</h3>
+        <p>Past orders, tracking and invoices would appear here after a real purchase.</p>
+        <button class="btn btn-ghost btn-sm" disabled>No orders yet</button>
+      </div>
+      <div class="account-card">
+        <span class="badge-proto">PLACEHOLDER</span>
+        <h3>Addresses & preferences</h3>
+        <p>Saved shipping addresses, newsletter preferences and product recommendations.</p>
+        <button class="btn btn-ghost btn-sm" disabled>Coming in production</button>
+      </div>
+    </div>
+
+    <div class="form-card" style="margin-top:40px">
+      <h3 style="margin-bottom:16px; text-align:center">Demo sign-in form</h3>
+      <div class="proto-notice">
+        Fields do nothing. This shows the UI only.
+      </div>
+      <form onsubmit="return fakeLogin(event)">
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" placeholder="you@example.com">
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" placeholder="••••••••">
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Sign in (demo)</button>
+      </form>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="/" class="logo">LAVET WELLNESS</a>
+        <p>Natural supplements, skincare & rituals for calm, clarity and vitality.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <a href="/products">All products</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+        <a href="/account">Account</a>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <a href="/cart">Cart</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-meta">Prototype storefront · Prices in ZAR · Not a live payment system</p>
+      <p class="footer-credit">Designed & Developed by <span class="footer-studio">Ayin Studio</span></p>
+    </div>
+  </footer>
+  <script>
+    function fakeLogin(e) {
+      e.preventDefault();
+      showToast('Demo only — no account was created or signed in');
+      return false;
+    }
+  </script>
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/neon-product.js"></script>
+  <script src="js/assistant.js"></script>
+</body>
+</html>

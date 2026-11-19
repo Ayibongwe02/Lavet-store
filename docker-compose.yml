@@ -1,0 +1,25 @@
+services:
+  web:
+    build: .
+    image: lavet-wellness:latest
+    container_name: lavet-wellness
+    ports:
+      - "8080:8080"
+    environment:
+      PORT: "8080"
+      # Set your key here or via a .env file next to docker-compose.yml
+      # DEEPGRAM_API_KEY: "dg_xxxxxxxx"
+      DEEPGRAM_API_KEY: ${DEEPGRAM_API_KEY:-}
+      DEEPGRAM_MODEL: ${DEEPGRAM_MODEL:-nova-2}
+      DEEPGRAM_LANGUAGE: ${DEEPGRAM_LANGUAGE:-en}
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://127.0.0.1:8080/api/health || exit 1"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
